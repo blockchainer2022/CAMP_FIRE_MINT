@@ -1,0 +1,95 @@
+@media only screen and (max-width: 990px) {
+
+
+    .saas-home-area {
+        height: 100%;
+        padding-top: 0px;
+        padding-bottom: 30px;
+        .hero-content {
+            text-align: center;
+            span {
+                margin-bottom: 5px;
+            }
+            h1 {
+                // font-size: 25px;
+                margin: 12px 0 8px 0;
+            }
+            p {
+                // font-size: 14px;
+            }
+            .saas-btn {
+                margin-top: 22px;
+                display: flex;
+                justify-content: center;
+                .saas-btn-one {
+                    padding: 10px 12px;
+                    font-size: 13px;
+                    i {
+                        font-size: 14px;
+                    }
+                }
+                .saas-btn-two {
+                    padding: 10px 12px;
+                    font-size: 13px;
+                    margin-left: 5px;
+                    i {
+                        font-size: 14px;
+                    }
+                }
+            }
+        }
+    }
+    .features-section {
+        padding-top: 0;
+    }
+    .creative-shape {
+        bottom: -5px;
+    }
+    .circle-img {
+        display: none;
+    }
+    .saas-image {
+        img {
+            position: unset;
+            // width: 80%;
+            // display: table;
+            margin: 0 auto;
+            // &:last-child {
+            //     display: none;
+            // }
+        }
+    }
+    .features-image {
+        text-align: center;
+        .features-shape {
+            display: none;
+        }
+        .features-arrow {
+            display: none;
+        }
+    }
+    .features-area-content {
+        margin-top: 25px;
+        span {
+            font-size: 14px;
+            padding: 6px 16px;
+        }
+        h2 {
+            font-size: 25px;
+            margin: 12px 0 8px 0;
+        }
+        p {
+            font-size: 14px;
+        }
+        .features-btn {
+            margin-top: 20px;
+        }
+        .features-text {
+            margin-top: 20px;
+        }
+    }
+
+
+}
+
+@media only screen and (min-width: 991px) {}

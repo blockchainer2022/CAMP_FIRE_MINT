@@ -1,0 +1,91 @@
+// $theme_col: #0e1217;
+// $theme_BGcol: #1d0b34;
+// $theme_colC: #FF6700;
+// $theme_colbC: #200c35;
+// $theme_colboC: #311352;
+// $nav_var: #fff;
+// $box-shadow: rgba(73,40,90, 0.65);
+// $btn_BC: #120f1f;
+// $theme_colbHC: #311352;
+// $themeBgGre: rgba(255,104,34,0);
+// $border_col : #200c35;
+// $textBox: #15002E;
+// $body-font-family: 'Open Sans', sans-serif;
+// $heading-font-family: 'Rubik', sans-serif;
+// $main-color: #311352;
+// $optional-color: #ffdecf;
+// $white-color: #ffffff;
+// $boxShapGredient: #B032AA;
+// $boxHeading: #fff;
+// $black-color: #343b4e;
+// $paragraph-color: #737b9a;
+// $font-size: 15px;
+// $transition: 0.5s;
+// $bannerCircleShage: rgba(200,0,200,.5);
+// $slickDots: #a59dae;
+// $minPlus: #311352;
+// $modalBg: #2e1d44;
+// $tableBg : #311352;
+// $CardBgCol: #311352;
+// $handleBar: #311352; 
+// $handlebarHover: #B032AA; 
+
+
+//themeBrown Starts from here
+
+$handleBar: #6F4A3C; 
+$handlebarHover: #9C6F5E; 
+$theme_col: #0e1217;
+$modalBg: rgba(44, 16, 0, 1);
+$theme_BGcol: #f06822;
+$theme_colC: #FF6700;
+$slickDots: #A36241;
+$minPlus: #A02F0B;
+$boxHeading: #fd5a0e;
+$bannerCircleShage: rgba(211, 85, 2, .5);
+$themeBgGre: rgba(255,104,34,0);
+$btn_BC: #582e19;
+$CardBgCol: #2E0D02;
+$themeBgGre: rgba(240,104,34,0);
+$box-shadow: rgba(231, 76, 9, 0.65);
+$theme_colbC: #f06823;
+$boxShapGredient: #473125;
+$textBox: #41291c;
+$nav_var: #f06823;
+$theme_colbHC: #e75307;
+$border_col : #e55d03;
+$body-font-family: 'Open Sans', sans-serif;
+$heading-font-family: 'Rubik', sans-serif;
+$main-color: #fd5a0e;
+$optional-color: #ffdecf;
+$white-color: #ffffff;
+$black-color: #343b4e;
+$paragraph-color: #737b9a;
+$font-size: 15px;
+$transition: 0.5s; 
+$theme_colboC: #f06823;
+
+$tableBg : #49261E;
+
+
+/* play with vars for different effets */
+:root {
+    --color-cursor: 220, 90, 90;
+    --cursor-outline-shade: 0.3;
+    --cursor-size: 10px;
+    --cursor-outline-size: 12px;
+  }
+
+//   .leftSlide{
+//     // left: 350px;
+//     // top: 120px;
+//     animation-name: example;
+//     animation-duration: 4s;
+//   }
+
+
+  @keyframes example {
+    0%   {left:0px; top:0px;}
+    100%  {left:350px; top:120px;}
+    
+  }

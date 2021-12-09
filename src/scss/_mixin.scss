@@ -1,0 +1,375 @@
+
+@mixin gradient-border {
+    --border-width: 3px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 28px;
+  text-decoration: none;
+  border-radius: var(--border-width);
+
+  &::after {
+    position: absolute;
+    content: "";
+    top: calc(-1 * var(--border-width));
+    left: calc(-1 * var(--border-width));
+    z-index: -1;
+    width: calc(100% + var(--border-width) * 2);
+    height: calc(100% + var(--border-width) * 2);
+    background: transparent;
+    border: 3px solid $theme_BGcol;
+    // background: linear-gradient(
+    //   60deg,
+    //   $theme_colboC,
+    //   $theme_colboC
+     
+    // );
+    background-size: 300% 300%;
+    background-position: 0 50%;
+    border-radius: calc(2 * var(--border-width));
+  }
+
+
+&:hover {
+  background-color:  $theme_BGcol;
+  color: #fff;
+  &::after {
+    position: absolute;
+    content: "";
+    top: calc(-1 * var(--border-width));
+    left: calc(-1 * var(--border-width));
+    z-index: -1;
+    width: calc(100% + var(--border-width) * 2);
+    height: calc(100% + var(--border-width) * 2);
+    background-color:  $theme_BGcol;
+
+    // background: linear-gradient(
+    //   60deg,
+    //   rgb(240,104,35)
+    //   // hsl(359, 85%, 66%),
+    //   // hsl(314, 85%, 66%),
+    //   // hsl(359, 85%, 66%),
+    //   // hsl(44, 85%, 66%),
+    //   // hsl(359, 85%, 66%),
+    //   // hsl(26, 85%, 66%),
+    //   // hsl(179, 85%, 66%)
+    // );
+    background-size: 300% 300%;
+    background-position: 0 50%;
+   
+    border-radius: calc(2 * var(--border-width));
+    animation: moveGradient 4s alternate infinite;
+  }
+}
+}
+
+@keyframes moveGradient {
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+
+
+
+.numCamp {
+  color: #fff;
+  text-decoration: none;
+  line-height: 45px;
+  margin-right: 20px;
+  font-family: "Poppins", sans-serif;
+  img {width: 22px;}
+
+  &:hover {color: #fff;}
+}
+.theme_btn {
+
+  img { width: 18px; margin-right: 10px}
+    // @include btn-border-slide(#252525, #168dff, 2px, 0.8s, 1px);
+    @include gradient-border; 
+    font-size: 14px;
+    font-weight: bold;
+    color: #f06822;
+    min-height: 47px;
+    background-color: transparent;
+    &:hover {
+      box-shadow:0 0 19px $box-shadow;
+      transition: all .2s ease-in-out;
+        color: #fff;
+    }
+
+  }
+
+  .banner_btn {
+    border-radius: 10px;
+    margin-right: 10px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    padding: 10px 62px;
+    height: 51px;
+    line-height: 30px;
+    color: #fff !important;
+    background: $theme_colbC;  
+    font-family: "Poppins", sans-serif;
+    text-decoration: none;
+    transition: background 1s; /* For modern browsers */
+
+    @media (max-width:768px) {
+      margin-bottom: 10px;
+  }
+
+    &:hover {
+      border-color: $theme_colbHC !important;
+      color: #fff;
+      box-shadow:0 0 19px $box-shadow;
+      transition: all .2s ease-in-out;
+      background: $theme_colbHC;
+      animation: moveGradient 4s alternate infinite;
+  }
+  }
+
+
+
+  .banner_btnW {
+
+    margin-right: 10px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    border-radius: 10px;
+    height: 51px;
+    line-height: 30px;
+    padding: 10px 62px;
+    text-decoration: none;
+    color: $theme_colbC !important;
+    background: rgb(255,255,255);  
+    font-family: "Poppins", sans-serif;
+    transition: background 1s; /* For modern browsers */
+    @media (max-width:768px) {
+      margin-bottom: 10px;
+  }
+
+  }
+
+
+
+  .center_btn {
+
+    border-radius: 10px;
+    margin-right: 10px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-align: center;
+    height: 51px;
+    line-height: 51px;
+    color: #fff !important;
+    background:  $theme_colbC;  
+    font-family: "Poppins", sans-serif;
+    text-decoration: none;
+    transition: background 1s; /* For modern browsers */
+    
+    width: 211px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin: 32px auto 0 auto;
+    display: table;
+    // background: #280e09;  
+    transition: background 1s; /* For modern browsers */
+    &:hover {
+      border-color:  $theme_colbHC !important;
+      color: #fff;
+      box-shadow:0 0 19px $box-shadow;
+      transition: all .2s ease-in-out;
+      background:  $theme_colbHC;
+      animation: moveGradient 4s alternate infinite;
+     
+     
+  }
+  }
+
+
+
+
+  //magic border
+  @mixin magic-border($width, $color, $duration, $direction){
+    position:relative;
+      &:before{
+        content:'';
+        position:absolute;
+        width:calc(100% + #{$width * 2});
+        height:calc(100% + #{$width * 2});
+        top:calc(#{$width}/-1);
+        left:calc(#{$width}/-1);
+        background:linear-gradient(to right, $color 0%, $color 100%), linear-gradient(to top, $color 50%, transparent 50%), linear-gradient(to top, $color 50%, transparent 50%), linear-gradient(to right, $color 0%, $color 100%), linear-gradient(to left, $color 0%, $color 100%);
+        background-size:100% $width, $width 200%, $width 200%, 0% $width, 0% $width;
+        background-position:50% 100%, 0% 0%, 100% 0%, 100% 0%, 0% 0%;
+        background-repeat:no-repeat, no-repeat;
+        transition:transform $duration ease-in-out, background-position $duration ease-in-out, background-size $duration ease-in-out;
+        transform:scaleX(0) rotate(180deg * $direction);
+        transition-delay:$duration*2, $duration, 0s;
+      }
+      &:hover{
+        &:before{
+          background-size:200% $width, $width 400%, $width 400%, 55% $width, 55% $width;
+          background-position:50% 100%, 0% 100%, 100% 100%, 100% 0%, 0% 0%;
+          transform:scaleX(1) rotate(180deg * $direction);
+          transition-delay:0s, $duration, $duration*2;
+        }
+      }
+  }
+  
+  @mixin magic-border-mask($width, $duration, $background, $direction){
+    position:relative;
+      &:before{
+        content:'';
+        position:absolute;
+        width:calc(100% + #{$width * 2});
+        height:calc(100% + #{$width * 2});
+        top:calc(#{$width}/-1);
+        left:calc(#{$width}/-1);
+        mask:linear-gradient(to right, #000 0%, #000 100%), linear-gradient(to top, #000 50%, transparent 50%), linear-gradient(to top, #000 50%, transparent 50%), linear-gradient(to right, #000 0%, #000 100%), linear-gradient(to left, #000 0%, #000 100%);
+        mask-size:100% $width, $width 200%, $width 200%, 0% $width, 0% $width;
+        mask-position:50% 100%, 0% 0%, 100% 0%, 100% 0%, 0% 0%;
+        mask-repeat:no-repeat, no-repeat;
+        transition:transform $duration ease-in-out, mask-position $duration ease-in-out, mask-size $duration ease-in-out;
+        transform:scaleX(0) rotate(180deg * $direction);
+        transition-delay:$duration*2, $duration, 0s;
+        background:$background;
+      }
+      &:hover{
+        &:before{
+          mask-size:200% $width, $width 400%, $width 400%, 55% $width, 55% $width;
+          mask-position:50% 100%, 0% 100%, 100% 100%, 100% 0%, 0% 0%;
+          transform:scaleX(1) rotate(180deg * $direction);
+          transition-delay:0s, $duration, $duration*2;
+        }
+      }
+  }
+
+
+  .buyB {
+    background: $theme_colbC;
+    box-shadow: 0px 4px 97px $box-shadow;
+    backdrop-filter: blur(192px);
+    /* Note: backdrop-filter has minimal browser support */
+    border-radius: 5px;
+    margin: 6px 0px;
+    padding: 10px 35px 7px;
+    color: $white-color;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    font-size: 1.1rem; 
+
+    
+
+
+    img {
+      width: 18px !important;
+    }
+
+&:hover {
+  box-shadow:0 0 19px  $box-shadow;
+  transition: all .2s ease-in-out;
+}
+        }
+
+        .MOffer {
+            
+            /* Note: backdrop-filter has minimal browser support */
+            border-radius: 5px;
+            margin: 5px 0px;
+            padding: 6px 35px 6px;
+            color: $white-color;
+            font-weight: bold;
+            font-size: 1.1rem;
+            background-color: transparent;
+            border: $theme_colbC 2px solid;
+            font-family: 'Poppins', sans-serif;
+            &:hover {
+              background-color: $theme_colbHC;
+              box-shadow:0 0 19px  $box-shadow;
+              transition: all .2s ease-in-out;
+
+            }
+
+
+            @media (max-width:768px) {
+              width: 100%;
+            }
+                }
+
+                
+
+
+
+            
+              
+
+
+
+
+
+
+// Slider Css
+
+.backshadow {
+
+  position: relative;
+  &::before {
+
+    content: "";
+    position: absolute;
+    width: 100px;
+    height: 50px;
+    background-color: $theme_colC;
+    z-index: -1;
+    top: -10px;
+    filter: blur(50px);
+    
+  }
+}
+
+
+
+.transfer {
+            
+  /* Note: backdrop-filter has minimal browser support */
+  border-radius: 16px;
+  padding: 4px 12px;
+  color: $white-color;
+  display: table;
+  font-size: 10px;
+  font-weight: 600;
+  background: rgb(249, 59, 93);
+  font-family: 'Poppins', sans-serif;
+  &:hover {
+    background-color: $theme_colbHC;
+    box-shadow:0 0 19px  $box-shadow;
+    transition: all .2s ease-in-out;
+
+  }
+}
+
+.buy {        
+  /* Note: backdrop-filter has minimal browser support */
+  border-radius: 16px;
+  padding: 4px 12px;
+  color: $white-color;
+  display: table;
+  font-size: 10px;
+  font-weight: 600;
+  background: #0fe816;
+  font-family: 'Poppins', sans-serif;
+  &:hover {
+    background-color: $theme_colbHC;
+    box-shadow:0 0 19px  $box-shadow;
+    transition: all .2s ease-in-out;
+
+  }
+}
+
+@media (max-width:768px) {
+  .detP_btn { width: 100%;}
+}
+
+

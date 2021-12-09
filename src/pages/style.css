@@ -1,0 +1,23 @@
+.mint-slider {
+  display: flex;
+  max-width: 400px;
+  width: 100%;
+  align-items: center;
+  margin-top: 100px;
+}
+.mint-slider p {
+  flex-shrink: 0;
+  margin-left: 10px;
+}
+
+.mint-slider .MuiSlider-root {
+  margin-top: 0;
+  width: 70%;
+}
+
+body .slick-slider {
+  z-index: 999;
+}
+header.bn-onboard-modal-content-header {
+  padding: 0;
+}
