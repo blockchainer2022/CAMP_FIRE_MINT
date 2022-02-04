@@ -87,7 +87,7 @@ body::before {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  width: 60%;
+  width: 53%;
   margin: 0 auto;
 
   .bonfire-separator {
@@ -106,6 +106,10 @@ body::before {
     font-family: "Poppins", sans-serif;
     font-weight: bold;
 
+    span {
+      color: #f06822;
+    }
+
     @media (max-width: 768px) {
       font-size: 2rem;
     }
@@ -115,7 +119,8 @@ body::before {
     color: #fefefe;
     font-weight: 300;
     text-align: center;
-    line-height: 35px;
+    line-height: 22px;
+    padding-top: 10px;
     font-weight: lighter;
     font-family: "Poppins", sans-serif;
   }
@@ -129,12 +134,16 @@ body::before {
 
 //section collectible starts from here
 
+.margintop150 {
+  padding-top: 100px;
+}
 .collectible {
   .Utility {
     background-color: #0e1217 !important;
     padding-top: 50px;
     padding-bottom: 58px;
   }
+
 
   .collectibleBox {
     // background-color: #522108;
@@ -195,8 +204,12 @@ body::before {
         font-weight: bold;
         font-size: 32px;
         font-family: "Poppins", sans-serif;
-
+        margin-top: 15px;
         padding-bottom: 15px;
+
+        span {
+          color: #fd5a0e;
+        }
       }
       p {
         color: $white-color;
@@ -529,7 +542,7 @@ body::before {
     // border-top: 3px solid #272727;
 
     @media (max-width: 768px) {
-      padding: 4rem 0px 4rem 0px;
+      padding: 2rem 0px 4rem 0px;
     }
   }
 
@@ -749,7 +762,7 @@ body::before {
     }
 
     font-family: "Poppins", sans-serif;
-    width: 145px !important;
+    min-width: 145px !important;
     height: 40px;
     margin-right: 15px;
     /* brown */
@@ -762,7 +775,7 @@ body::before {
     border-radius: 16px;
     font-size: 1.1rem;
     min-height: 40px;
-    width: 110px;
+    width: 130px;
     padding-right: 10px;
     color: $white-color;
 
@@ -771,7 +784,7 @@ body::before {
     background: transparent;
     background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
     background-repeat: no-repeat;
-    background-position-x: 105px;
+    background-position-x: 122px;
     background-position-y: 7px;
     border: 1px solid #dfdfdf;
 
@@ -1328,6 +1341,7 @@ body::before {
       color: #000;
       padding-left: 10px;
       margin-bottom: 10px;
+      margin-top: 20px;
     }
   }
 
@@ -1369,7 +1383,7 @@ body::before {
   width: 100%;
   height: auto;
   margin-bottom: 0;
-  padding-top: 11em;
+  padding-top: 10em;
   padding-bottom: 186px;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
@@ -1464,7 +1478,11 @@ span {
     font-size: 13px;
     font-family: Poppins, sans-serif;
     color: #fff;
+  
+  
   }
+
+  .martop10 {  margin-top: 20px;   max-width: 430px;}
 }
 
 .buthisNFT {

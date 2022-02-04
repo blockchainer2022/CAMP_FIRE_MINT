@@ -105,6 +105,13 @@ export const contractAbi = [
   },
   {
     inputs: [],
+    name: "MAX_ALLOWED_PRIVATE_SALE",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "MAX_SUPPLY",
     outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
@@ -115,6 +122,38 @@ export const contractAbi = [
     name: "OWNER_RESERVED",
     outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "PRESALE_RESERVED",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "PRIVATE_PRESALE_RESERVED",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address[]", name: "addresses", type: "address[]" },
+    ],
+    name: "addToPresale",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address[]", name: "_recipients", type: "address[]" },
+    ],
+    name: "airdrop",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -131,6 +170,13 @@ export const contractAbi = [
     inputs: [{ internalType: "address", name: "owner", type: "address" }],
     name: "balanceOf",
     outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "addr", type: "address" }],
+    name: "checkPresaleEligiblity",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
     stateMutability: "view",
     type: "function",
   },
@@ -188,6 +234,20 @@ export const contractAbi = [
   },
   {
     inputs: [],
+    name: "pausePreSale",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "pausePrivateSale",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "pauseSale",
     outputs: [],
     stateMutability: "nonpayable",
@@ -195,8 +255,36 @@ export const contractAbi = [
   },
   {
     inputs: [],
+    name: "presaleOpen",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "presaleWhiteListRequired",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "price",
     outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "_count", type: "uint256" }],
+    name: "privatePresaleMintNFT",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "privateSaleOpen",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
     stateMutability: "view",
     type: "function",
   },
@@ -271,8 +359,30 @@ export const contractAbi = [
     type: "function",
   },
   {
+    inputs: [
+      { internalType: "uint256", name: "_presaleReserved", type: "uint256" },
+    ],
+    name: "setPresaleReserved",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     inputs: [{ internalType: "uint256", name: "_newPrice", type: "uint256" }],
     name: "setPrice",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_privatePresaleReserved",
+        type: "uint256",
+      },
+    ],
+    name: "setPrivatePresaleReserved",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -342,6 +452,20 @@ export const contractAbi = [
   },
   {
     inputs: [],
+    name: "unpausePreSale",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "unpausePrivateSale",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "unpauseSale",
     outputs: [],
     stateMutability: "nonpayable",
@@ -356,6 +480,13 @@ export const contractAbi = [
   },
   {
     inputs: [],
+    name: "whitelistPresale",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "withdrawAll",
     outputs: [],
     stateMutability: "nonpayable",
@@ -363,6 +494,5 @@ export const contractAbi = [
   },
 ];
 
-// export const contractAddress = "0xD73eE48F78da0B851892A60772acC9d0218374FE";
-// export const contractAddress = "0x25A0d5147BaF36D6DE8d85EA461162810870Dd74";
-export const contractAddress = "0x13A435137b213C1bE0Ce81F123F0850e3FB7F427";
+export const contractAddress = "0x5A929ee3640f2f115D77d8Ce5f926Acc83D97634";
+//export const contractAddress = "0x28CFC73b6A3E3FD331536b71915388965D657D10";

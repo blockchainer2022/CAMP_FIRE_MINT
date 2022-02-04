@@ -6,7 +6,7 @@ const ConfirmationLoadingPopup = ({ open, title, message }) => {
     <>
       <aside
         className="bn-onboard-custom bn-onboard-modal svelte-rntogh"
-        style={open ? { zIndex: "100" } : { display: "none" }}
+        style={open ? { zIndex: "99999999" } : { display: "none" }}
       >
         <section
           className="bn-onboard-custom bn-onboard-modal-content svelte-rntogh bn-onboard-dark-mode"

@@ -1,67 +1,332 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 // import "./../scss/main.scss";
-import ReactBootstrap, {
-  Navbar,
-  Container,
-  Nav,
-  NavDropdown,
-  Modal,
-  Form,
-  FormControl,
-  Button,
-} from "react-bootstrap";
-import $ from "jquery";
-
+import { useParams } from "react-router-dom";
+import { Navbar, Container, Nav, Modal } from "react-bootstrap";
+import TimeAgo from "timeago-react";
 // image import
 import logo from "../assets/images/logo.png";
 
 //footer Social Icons
-import twitter from "../assets/images/twitter.svg";
-import telegram from "../assets/images/telegram.svg";
-import instagram from "../assets/images/instagram.svg";
-import discord from "../assets/images/discord.svg";
-
 import wallet from "../assets/images/wallet.png";
-import camp_logo from "../assets/images/camp_logo.png";
-
 import external_link from "../assets/images/external-link-alt.svg";
-
 import metaMask from "../assets/images/MetaMask_Fox 1.png";
 import metaMask2 from "../assets/images/bsc-icon-logo-1-1 1.png";
 import file_copy from "../assets/images/file_copy.png";
 
-import list from "../assets/images/list.png";
-import grid from "../assets/images/grid.png";
-
-import gridimg1 from "../assets/images/gridimg1.png";
-import gridimg2 from "../assets/images/gridimg2.png";
-import gridimg3 from "../assets/images/gridimg3.png";
-import gridimg4 from "../assets/images/gridimg4.png";
-
-import heartIcon from "../assets/images/Vector.png";
-
-import left_Icon from "../assets/images/left_Icon.png";
-import right_Icon from "../assets/images/right_Icon.png";
-
 import detail_Image from "../assets/images/detail_Image.png";
 import Group_43 from "../assets/images/Group_43.png";
 import { Link } from "react-router-dom";
-
+import axios from "axios";
+import InformationModal from "../components/informationModal";
+import ConfirmationLoadingPopup from "../components/confirmationLoadingPopup";
 // import * as ReactBootstrap from 'react-bootstrap';
-function MarketPlaceGallery() {
+import Sample from "../assets/images/sampleNft.jpeg";
+
+import Web3 from "web3";
+function MarketPlaceGallery({
+  chainId,
+  contractAddress,
+  account,
+  market_contract,
+  contract,
+  contractAddress_marketplace,
+  loadWeb3,
+}) {
   let baseUrl = process.env.PUBLIC_URL;
-
+  // const [show2, setShow2] = useState(false);
+  // const handleShowCW = () => setShow2(true);
+  const [nftData, setNftData] = useState({});
+  const [show, setShow] = useState(false);
   const [show2, setShow2] = useState(false);
+  const [sell, setSell] = useState(false);
+  const [sell2, setSell2] = useState(false);
+  const [listPrice, setListPrice] = useState(0);
+  const [nftList, setNftList] = useState([]);
+  const [approve, setApprove] = useState(false);
+  const [lessMintAmountAlert, setLessMintAmountAlert] = useState(false);
+  const [accessAccountDenied, setAccessAccountDenied] = useState(false);
+  const [installEthereum, setInstallEthereum] = useState(false);
+  const [listNftApproved, setListNftApproved] = useState(false);
+  const [nftListed, setNftListed] = useState(false);
+  const [nftMinting, setNftMinting] = useState(false);
+  const [transactionRejected, setTransactionRejected] = useState(false);
+  const [transactionFailed, setTransactionFailed] = useState(false);
+  const [switchToMainnet, setswitchToMainnet] = useState(false);
+  const [ethereumCompatibleBrowser, setEthereumCompatibleBrowser] =
+    useState(false);
+  const [listApprove, setListApprove] = useState(false);
+  const [listingInProgress, setListingInProgress] = useState(false);
+  const [buyInProgress, setBuyInProgress] = useState(false);
+  const [confirmTransaction, setConfirmTransaction] = useState(false);
+  const [transactionHistory, setTransactionHistory] = useState([]);
+  const [error, setError] = useState(false);
+  const { id } = useParams();
   const handleCloseCW = () => setShow2(false);
-  const handleShowCW = () => setShow2(true);
+  const handleClose = () => setShow(false);
 
+  // const handleShow = () => {
+  //   if (nftData.currentOwner) {
+  //     if (
+  //       account.toUpperCase() === nftData.currentOwner.toUpperCase() &&
+  //       nftData.status !== "listed"
+  //     ) {
+  //       setSell(true);
+  //       return;
+  //     }
+  //   }
+
+  //   if (
+  //     account.toUpperCase() === nftData.currentOwner.toUpperCase() &&
+  //     nftData.status === "listed"
+  //   ) {
+  //     setSell2(true);
+  //   } else {
+  //     setShow(true);
+  //   }
+  // };
+
+  const handleShow = () => {
+    setError(true);
+  };
+  const listPriceHandler = (e) => {
+    setListPrice(e.target.value);
+  };
+
+  const listHandler = () => list(listPrice);
+
+  const handleSell = () => setSell(false);
+  const handleSell2 = () => setSell2(false);
+  //__NFTLISTING_ON_BLOCKCHAIN👇
+  const postTNX = async (txnHash, tokenId, txnType, txnAmount) => {
+    try {
+      const postTransaction = await axios.post(
+        "https://defi.mobiwebsolutionz.com/api/nftmarketplace/add-transaction.php",
+        {
+          walletAddress: account,
+          txnHash: txnHash,
+          contractAddress: contractAddress,
+          tokenId: tokenId,
+          txnType: txnType,
+          txnAmount: txnAmount,
+          network: "testnet",
+        }
+      );
+      return postTransaction;
+    } catch (error) {}
+  };
+  const list = async (listPrice) => {
+    if (market_contract) {
+      if (chainId === 97) {
+        if (listPrice <= 0) {
+          alert("Value can't be empty or less then 1");
+        } else {
+          try {
+            const convertedPrice = window.web3.utils.toWei(listPrice, "ether");
+            console.log(convertedPrice);
+            const postListedItems = await axios.post(
+              `https://defi.mobiwebsolutionz.com/api/nftmarketplace/list-for-sell-nft.php`,
+              {
+                currentOwner: nftData.currentOwner,
+                salePrice: convertedPrice,
+                contractAddress: contractAddress,
+                tokenId: nftData.tokenId,
+                network: "testnet",
+              }
+            );
+            console.log("DATA POSTED", postListedItems);
+            const {
+              data: { data: nftDetails },
+            } = await axios.get(
+              `https://defi.mobiwebsolutionz.com/api/nftmarketplace/get-nft-details.php?contractAddress=${contractAddress}&tokenId=${nftData.tokenId}`
+            );
+            setConfirmTransaction(true);
+            market_contract.methods
+              .listNFT(
+                contractAddress,
+                nftDetails.tokenId,
+                nftDetails.salePrice,
+                nftDetails.listId
+              )
+              .send({ from: account })
+              .on("transactionHash", async function (response) {
+                setConfirmTransaction(false);
+                setListingInProgress(true);
+                const data = await postTNX(
+                  response,
+                  nftDetails.tokenId,
+                  "Listing",
+                  nftDetails.salePrice
+                );
+                console.log(data);
+              })
+              .on("confirmation", function () {
+                const el = document.createElement("div");
+                el.innerHTML =
+                  "View minted NFT on OpenSea : <a href='https://testnets.opensea.io/account '>View Now</a>";
+
+                setNftListed(true);
+                setConfirmTransaction(false);
+                setListingInProgress(false);
+
+                setNftListed(false);
+
+                window.location.reload();
+              })
+              .on("error", function (error, receipt) {
+                if (error.code === 4001) {
+                  setTransactionRejected(true);
+                  setConfirmTransaction(false);
+                  setListingInProgress(false);
+                } else {
+                  setTransactionFailed(true);
+                  setConfirmTransaction(false);
+                  setListingInProgress(false);
+                }
+              });
+
+            // console.log(response);
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      }
+    }
+  };
+  //__NFTLISTING_ON_BLOCKCHAIN👆
+
+  //__NFTLISTING_ON_APPROVE👇
+  // const list = () => {
+  //   setError(true);
+  // };
+
+  const approveListing = async () => {
+    if (contract) {
+      setConfirmTransaction(true);
+      contract.methods
+        .approve(contractAddress_marketplace, nftData.tokenId)
+        .send({ from: account })
+        .on("transactionHash", async function (response) {
+          setConfirmTransaction(false);
+          setListApprove(true);
+          const data = await postTNX(response, nftData.tokenId, "Approve", 0);
+          console.log(data);
+        })
+        .on("confirmation", function () {
+          const el = document.createElement("div");
+          el.innerHTML =
+            "View minted NFT on OpenSea : <a href='https://testnets.opensea.io/account '>View Now</a>";
+
+          setListNftApproved(true);
+          setConfirmTransaction(false);
+          setListApprove(false);
+          setApprove(true);
+          setListNftApproved(false);
+        })
+        .on("error", function (error, receipt) {
+          if (error.code === 4001) {
+            setTransactionRejected(true);
+            setConfirmTransaction(false);
+            setListApprove(false);
+          } else {
+            setTransactionFailed(true);
+            setConfirmTransaction(false);
+            setListApprove(false);
+          }
+        });
+    }
+  };
+  //__NFTLISTING_ON_APPROVE👆
+
+  //__NFTBUY_ON_APPROVE👇
+  const buyNft = async (price) => {
+    if (market_contract) {
+      if (chainId === 97) {
+        if (Number(price) <= 0) {
+          alert("Please Input value");
+        } else {
+          console.log(nftData.listId, price);
+          setConfirmTransaction(true);
+          market_contract.methods
+            .buyNFT(nftData.listId)
+            .send({ from: account, value: Number(price) })
+            .on("transactionHash", async function ({ response }) {
+              setConfirmTransaction(false);
+              setBuyInProgress(true);
+              const data = await postTNX(
+                response,
+                nftData.tokenId,
+                "Buy",
+                price
+              );
+              console.log(data);
+            })
+            .on("confirmation", function () {
+              const el = document.createElement("div");
+              el.innerHTML =
+                "View minted NFT on OpenSea : <a href='https://testnets.opensea.io/account '>View Now</a>";
+
+              setNftListed(true);
+              setConfirmTransaction(false);
+              setBuyInProgress(false);
+              setApprove(true);
+              setNftListed(false);
+              window.location.reload();
+            })
+            .on("error", function (error, receipt) {
+              if (error.code === 4001) {
+                setTransactionRejected(true);
+                setConfirmTransaction(false);
+                setBuyInProgress(false);
+              } else {
+                setTransactionFailed(true);
+                setConfirmTransaction(false);
+                setBuyInProgress(false);
+              }
+            });
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    const getChainData = async () => {
+      const {
+        data: { data: getData },
+      } = await axios.get(
+        `https://defi.mobiwebsolutionz.com/api/nftmarketplace/get-nft-details.php?contractAddress=${contractAddress}&tokenId=${id}`
+      );
+      // console.log(getData);
+      setNftData(getData);
+    };
+    getChainData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    const getTransactionHistory = async () => {
+      try {
+        const {
+          data: { data: history },
+        } = await axios.get(
+          `https://defi.mobiwebsolutionz.com/api/nftmarketplace/get-transactions.php?contractAddress=${contractAddress}&tokenId=${id}`
+        );
+        console.log();
+        setTransactionHistory(history);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getTransactionHistory();
+  }, [id]);
+
+  console.log(id);
   return (
     <>
       {/* header */}
-
       <header>
         <svg
           class="hero-section-squares bonfire-squares"
@@ -177,29 +442,27 @@ function MarketPlaceGallery() {
             <Navbar.Toggle aria-controls="navbarScroll" />
             <Navbar.Collapse id="navbarScroll" className="justify-content-end">
               <Nav className="my-2  my-lg-0" navbarScroll>
+                <Link className="nav-link" to="/collection">
+                  My Collection
+                </Link>
                 <Nav.Link href="#action1">Cozy That</Nav.Link>
                 <Nav.Link href="#action2">Whitepaper</Nav.Link>
                 <Nav.Link href="#action3">Chart</Nav.Link>
                 <Nav.Link href="#action4">FAQ</Nav.Link>
-                {/* <Nav.Link href="#action5">Contacts</Nav.Link>
-                                <Nav.Link href="#action6">Docs</Nav.Link> */}
-                {/* <NavDropdown title="Roadmap" id="navbarScrollingDropdown">
-                        <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-                        <NavDropdown.Item href="#action4">Another action</NavDropdown.Item>
-                        <NavDropdown.Divider />
-                        <NavDropdown.Item href="#action5">
-                            Something else here
-                        </NavDropdown.Item>
-                        </NavDropdown> */}
               </Nav>
 
               <div className="d-flex ">
-                <a href="#" className="numCamp">
-                  {" "}
-                  <img src={camp_logo} /> 00.00.00.00
-                </a>{" "}
-                <a href="#" class="theme_btn" onClick={handleShowCW}>
-                  <img src={wallet} /> Connect wallet
+                <a href="#" class="theme_btn" onClick={loadWeb3}>
+                  {account ? (
+                    account.slice(0, 6) +
+                    "..." +
+                    account.slice(account.length - 4)
+                  ) : (
+                    <>
+                      <img src={wallet} />
+                      Connect wallet
+                    </>
+                  )}
                 </a>
               </div>
             </Navbar.Collapse>
@@ -215,19 +478,74 @@ function MarketPlaceGallery() {
                 <div className="col-md-6">
                   <div class="img_border">
                     <div className="imgCon">
-                      {" "}
-                      <img src={detail_Image} />
+                      {nftData.image ? (
+                        id < 7 ? (
+                          <video
+                            autoPlay={true}
+                            loop={true}
+                            muted={true}
+                            playsInline={true}
+                            className=""
+                            style={{ width: "100%" }}
+                            // poster={Doge}
+                          >
+                            {" "}
+                            <source
+                              src={nftData.image}
+                              type="video/mp4"
+                            ></source>
+                          </video>
+                        ) : (
+                          <img src={nftData.image} />
+                        )
+                      ) : (
+                        <img className="blur" src={detail_Image} />
+                      )}
                     </div>
                     <div class="detailOfferSec">
                       <div class="detailOfferTop">
                         <div class="detailNumSec">
-                          <h4 class="head4">300.09 BNB</h4>
-                          <h6 class="head6">0.27 USD</h6>
+                          <h4 class="head4">
+                            {nftData.salePrice
+                              ? Web3.utils.fromWei(nftData.salePrice, "ether")
+                              : "00"}{" "}
+                            BNB
+                          </h4>
+                          {/* <h6 class="head6">0.27 USD</h6> */}
                         </div>
-
-                        <button class="MOffer">Offer</button>
                       </div>
-                      <button class="buyB detP_btn">Buy this NFT </button>
+                      {nftData ? (
+                        nftData.status === "listed" ||
+                        (nftData.status !== "listed" &&
+                          nftData?.currentOwner?.toUpperCase() ===
+                            account?.toUpperCase()) ? (
+                          <button
+                            class="buyB detP_btn"
+                            onClick={() => handleShow(nftData)}
+                          >
+                            {nftData
+                              ? nftData.status === "listed" &&
+                                nftData?.currentOwner?.toUpperCase() ===
+                                  account?.toUpperCase()
+                                ? "Sell Nft"
+                                : nftData.status === "listed"
+                                ? "Buy Nft"
+                                : "Sell Nft"
+                              : "Buy Nft"}
+                          </button>
+                        ) : (
+                          <button className="buyB detP_btn disable">
+                            {" "}
+                            Not Listed
+                          </button>
+                        )
+                      ) : (
+                        <button className="buyB detP_btn disable">
+                          {" "}
+                          Not Listed
+                        </button>
+                      )}
+                      {/* <button class="buyB detP_btn">Buy this NFT </button> */}
                       <p class="buthisNFT">
                         Buy CAMPFIRE on FireSwap{" "}
                         <a href="">
@@ -240,9 +558,9 @@ function MarketPlaceGallery() {
 
                 <div className="col-md-6">
                   <div class="flex_contentBox">
-                    <h4>NFT name</h4>
+                    <h4>{nftData ? nftData.name : ""}</h4>
                     <div class="boxDetail">
-                      <p>Rarity: ULTRA RARE</p>
+                      <p>Rarity: Not Available till Main sale is over</p>
                       {/* <p><img src={heartIcon}/> 1192</p> */}
                     </div>
 
@@ -253,7 +571,12 @@ function MarketPlaceGallery() {
                           <img src={Group_43} />
                         </div>
                         <a href="#" class="copyLink">
-                          93872jgcjgcjg89809809{" "}
+                          {nftData.currentOwner &&
+                            nftData.currentOwner.slice(0, 10) +
+                              "..." +
+                              nftData.currentOwner.slice(
+                                nftData.currentOwner.length - 4
+                              )}
                           <img src={file_copy} class="copyImg" />{" "}
                         </a>
                       </div>
@@ -271,13 +594,12 @@ function MarketPlaceGallery() {
                           <label for="tab-1">Description</label>
                           <div class="tabby-content">
                             <p>
-                              Lorem Ipsum is simply dummy text of the printing
-                              and typesetting industry. Lorem Ipsum has been the
-                              industry's standard dummy text ever Lorem Ipsum is
-                              simply dummy text of the printing and typesetting
-                              industry. Lorem Ipsum has been the industry's
-                              standard dummy text ever Lorem Ipsum is simply
-                              dummy text of the printing.
+                              My name is Smokey, the little Dragon! I was once a
+                              perfectly normal Charmeleon, a Pokemon of a
+                              wonderful trainer. That was before I fell through
+                              a rift and was trapped into the BSC Blockchain,
+                              where 10,000 unique combinations of me formed in
+                              all sorts of outfits and scenarios. Join the Camp!
                             </p>
                           </div>
                         </div>
@@ -292,87 +614,62 @@ function MarketPlaceGallery() {
                           <div class="tabby-content scrollable">
                             <table width="100%" className="tabTable">
                               <tbody>
-                                <tr>
-                                  <th>
-                                    <p>93872jgc</p>
-                                    <button className="transfer">Sell</button>
-                                  </th>
-                                  <th>
-                                    <p>93872jgc</p>
-                                    <span>owner</span>
-                                  </th>
-                                  <th>
-                                    <p>93872jgc</p>
-                                    <span>TX</span>
-                                  </th>
-                                  <th>
-                                    <p>0,022 BNB</p>
-                                    <span>1 minute ago</span>
-                                  </th>
-                                </tr>
-
-                                <tr>
-                                  <td>
-                                    <p>93872jgc</p>
-                                    <button className="buy">Buy</button>
-                                  </td>
-                                  <td>
-                                    <p>93872jgc</p>
-                                    <span>owner</span>
-                                  </td>
-                                  <td>
-                                    <p>93872jgc</p>
-                                    <span>TX</span>
-                                  </td>
-                                  <td>
-                                    <p>0,022 BNB</p>
-                                    <span>1 minute ago</span>
-                                  </td>
-                                </tr>
-
-                                <tr>
-                                  <td>
-                                    <p>93872jgc</p>
-                                    <button className="buy">Buy</button>
-                                  </td>
-                                  <td>
-                                    <p>93872jgc</p>
-                                    <span>owner</span>
-                                  </td>
-                                  <td>
-                                    <p>93872jgc</p>
-                                    <span>TX</span>
-                                  </td>
-                                  <td>
-                                    <p>0,022 BNB</p>
-                                    <span>1 minute ago</span>
-                                  </td>
-                                </tr>
-
-                                <tr>
-                                  <td>
-                                    <p>93872jgc</p>
-                                    <button className="transfer">Sell</button>
-                                  </td>
-                                  <td>
-                                    <p>93872jgc</p>
-                                    <span>owner</span>
-                                  </td>
-                                  <td>
-                                    <p>93872jgc</p>
-                                    <span>TX</span>
-                                  </td>
-                                  <td>
-                                    <p>0,022 BNB</p>
-                                    <span>1 minute ago</span>
-                                  </td>
-                                </tr>
+                                {transactionHistory.map((v, i) => (
+                                  <tr key={i}>
+                                    <td>
+                                      <p>Type</p>
+                                      <button className="buy">
+                                        {v.txnType}
+                                      </button>
+                                    </td>
+                                    <td>
+                                      <p>
+                                        {v.walletAddress
+                                          ? v.walletAddress.slice(0 - 4) +
+                                            "..." +
+                                            v.walletAddress.slice(
+                                              v.walletAddress.length - 4
+                                            )
+                                          : ""}
+                                      </p>
+                                      <span>Owner</span>
+                                    </td>
+                                    <td>
+                                      <p>
+                                        {" "}
+                                        {v.txnHash
+                                          ? v.txnHash.slice(0 - 4) +
+                                            "..." +
+                                            v.txnHash.slice(
+                                              v.txnHash.length - 4
+                                            )
+                                          : ""}
+                                      </p>
+                                      <span>TXHash</span>
+                                    </td>
+                                    <td>
+                                      <p>
+                                        {Web3.utils.fromWei(
+                                          v.txnAmount,
+                                          "ether"
+                                        )}{" "}
+                                        BNB
+                                      </p>
+                                      <span>
+                                        <TimeAgo
+                                          datetime={v.created_time}
+                                          // locale="zh_C"
+                                        />
+                                      </span>
+                                    </td>
+                                  </tr>
+                                ))}
                               </tbody>
                             </table>
                           </div>
                         </div>
 
-                        <div class="tabby-tab">
+                        {/* <div class="tabby-tab">
                           <input
                             type="radio"
                             id="tab-3"
@@ -486,7 +783,7 @@ function MarketPlaceGallery() {
                               </tbody>
                             </table>
                           </div>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </div>
@@ -497,56 +794,235 @@ function MarketPlaceGallery() {
         </div>
       </section>
 
-      <Modal show={show2} onHide={handleCloseCW}>
+      <Modal show={show} onHide={handleClose}>
         <Modal.Body>
-          <Modal.Header closeButton>
-            {/* <Modal.Title>Modal title</Modal.Title> */}
-          </Modal.Header>
           <div class="makeOverMain">
             <div class="makeModalSec">
-              <div class="makeModalInner">
-                <div class="modalOfferSec">
-                  <div class="discSec bgCol">
-                    <img src={metaMask} className="imgS" />
-                    <h5 class="head6">Meta Mask</h5>
-                    <p>Connect to your MetaMask wallet</p>
+              <div class="makeModalInner wahe">
+                <h2 class="head2">Buy - {!nftData.name ? "" : nftData.name}</h2>
+                <div class="make_offer">
+                  {/* <div class="discSec">
+                    <h5 class="head6">Your balance</h5>
+                    <h6 class="head6">0 BNB</h6>
+                  </div> */}
+                  <div
+                    class="discSec"
+                    style={{
+                      color: "white",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      margin: "10px 0 20px",
+                      padding: "0 80px",
+                    }}
+                  >
+                    <h4 class="modal-title " style={{ fontSize: "30px" }}>
+                      Price: &nbsp;
+                    </h4>
+                    <h6
+                      class="modal-price "
+                      style={{ fontSize: "30px", lineHeight: "1.2" }}
+                    >
+                      {nftData.salePrice
+                        ? Web3.utils.fromWei(nftData.salePrice, "ether")
+                        : "00"}
+                    </h6>
                   </div>
-
-                  <div class="discSec bgCol">
-                    <img src={metaMask2} className="imgS" />
-                    <h5 class="head6">Meta Mask</h5>
-                    <p>Connect to your MetaMask wallet</p>
-                  </div>
-
-                  <div class="discSec bgCol">
-                    <img src={metaMask} className="imgS" />
-                    <h5 class="head6">Meta Mask</h5>
-                    <p>Connect to your MetaMask wallet</p>
-                  </div>
-
-                  <div class="discSec bgCol">
-                    <img src={metaMask2} className="imgS" />
-                    <h5 class="head6">Meta Mask</h5>
-                    <p>Connect to your MetaMask wallet</p>
-                  </div>
-
-                  <div class="discSec bgCol">
-                    <img src={metaMask} className="imgS" />
-                    <h5 class="head6">Meta Mask</h5>
-                    <p>Connect to your MetaMask wallet</p>
-                  </div>
-
-                  <div class="discSec bgCol">
-                    <img src={metaMask2} className="imgS" />
-                    <h5 class="head6">Meta Mask</h5>
-                    <p>Connect to your MetaMask wallet</p>
-                  </div>
+                  {/* <div class="discSec">
+                    <h5 class="head6">Your current offer</h5>
+                    <h6 class="head6">0 BNB</h6>
+                  </div> */}
+                  {/* <div class="discSec">
+                    <h5 class="head6">Offer</h5>
+                    <h6 class="head6">Min offer: 0.5 BNB</h6>
+                  </div> */}
+                </div>
+                {/* <form>
+                  <input type="text" class="modalInput"></input>
+                  <p class="para">You must offer at least 0.5 BNB</p>
+                </form> */}
+                <div className="btnWrap">
+                  <button
+                    className="buyB"
+                    onClick={() => buyNft(nftData.salePrice)}
+                  >
+                    Buy
+                  </button>
                 </div>
               </div>
             </div>
           </div>
         </Modal.Body>
       </Modal>
+      <Modal show={sell} onHide={handleSell}>
+        <Modal.Body>
+          <div class="makeOverMain">
+            <div class="makeModalSec">
+              <div class="makeModalInner wahe">
+                <h2 class="head2">
+                  List for Sale - {!nftData.name ? "" : nftData.name}
+                </h2>
+
+                <form onSubmit={(e) => e.preventDefault()}>
+                  <input
+                    type="text"
+                    class="modalInput"
+                    value={listPrice}
+                    onChange={listPriceHandler}
+                  ></input>
+                  <p class="para">Set Your Nft Price</p>
+                </form>
+                <div class="btnWrap">
+                  <button
+                    class={`buyB list ${approve ? "disable" : ""}`}
+                    onClick={() => approveListing(nftData)}
+                  >
+                    Approve
+                  </button>
+                  <button
+                    class={`buyB list ${approve ? "" : "disable"}`}
+                    onClick={listHandler}
+                  >
+                    List For Sale
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
+      <Modal show={sell2} onHide={handleSell2}>
+        <Modal.Body>
+          <div class="makeOverMain">
+            <div class="makeModalSec">
+              <div class="makeModalInner wahe">
+                <h2 class="head2">
+                  List for Sale - {!nftData.name ? "" : nftData.name}
+                </h2>
+
+                <h2 class="head2">
+                  Current Price -{" "}
+                  {!nftData.salePrice
+                    ? "00"
+                    : Web3.utils.fromWei(nftData.salePrice, "ether")}
+                </h2>
+
+                <form onSubmit={(e) => e.preventDefault()}>
+                  <input
+                    type="text"
+                    class="modalInput"
+                    value={listPrice}
+                    onChange={listPriceHandler}
+                  ></input>
+                  <p class="para">Set Your Nft Price</p>
+                </form>
+                <div class="btnWrap">
+                  <button
+                    class={`buyB list ${approve ? "disable" : ""}`}
+                    onClick={() => approveListing()}
+                  >
+                    Approve
+                  </button>
+                  <button
+                    class={`buyB list ${approve ? "" : "disable"}`}
+                    onClick={listHandler}
+                  >
+                    List For Sale
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
+
+      <InformationModal
+        open={lessMintAmountAlert}
+        onClose={setLessMintAmountAlert}
+        title="Oops"
+        text="Value Cant be less then 1"
+      />
+
+      <InformationModal
+        open={accessAccountDenied}
+        onClose={setAccessAccountDenied}
+        title="Oops"
+        text="Request to access account denied!"
+      />
+      <InformationModal
+        open={installEthereum}
+        onClose={setInstallEthereum}
+        title="Oops"
+        text="Please install an Ethereum-compatible browser or extension like MetaMask to use this dApp!"
+      />
+      <InformationModal
+        open={listNftApproved}
+        onClose={setListNftApproved}
+        title="Approve Successful"
+        text="Approved Successfully, Now you can list your Nft"
+      />
+      <InformationModal
+        open={nftListed}
+        onClose={setNftListed}
+        title="Nft Listed Successful"
+        text="Nft Listed Successfully"
+      />
+      <InformationModal
+        open={nftMinting}
+        onClose={setNftMinting}
+        title="Information"
+        text="Minting NFT!"
+      />
+      <InformationModal
+        open={transactionRejected}
+        onClose={setTransactionRejected}
+        title="Error"
+        text="Transaction Rejected!"
+      />
+      <InformationModal
+        open={transactionFailed}
+        onClose={setTransactionFailed}
+        title="Error"
+        text="Transaction Failed!"
+      />
+      <InformationModal
+        open={switchToMainnet}
+        onClose={setswitchToMainnet}
+        title="Error"
+        text="Please switch to mainnet "
+      />
+      <InformationModal
+        open={ethereumCompatibleBrowser}
+        onClose={setEthereumCompatibleBrowser}
+        title="Error"
+        text="Please install an Ethereum-compatible browser or extension like MetaMask to use this dApp!"
+      />
+      <ConfirmationLoadingPopup
+        open={confirmTransaction}
+        title="Confirm Transaction"
+        message="Please confirm transaction"
+      />
+      <ConfirmationLoadingPopup
+        open={listApprove}
+        title="Approving In Progress"
+        message="Please wait to get confirmation of the transaction from blockchain"
+      />
+      <ConfirmationLoadingPopup
+        open={listingInProgress}
+        title="Listing In Progress"
+        message="Please wait to get confirmation of the transaction from blockchain"
+      />
+      <ConfirmationLoadingPopup
+        open={buyInProgress}
+        title="Buy In Progress"
+        message="Please wait to get confirmation of the transaction from blockchain"
+      />
+      <InformationModal
+        open={error}
+        onClose={setError}
+        title="Oops"
+        text="Trading will be open after 3rd Feb
+        "
+      />
     </>
   );
 }

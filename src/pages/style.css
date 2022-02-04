@@ -3,7 +3,7 @@
   max-width: 400px;
   width: 100%;
   align-items: center;
-  margin-top: 100px;
+  margin-top: 30px;
 }
 .mint-slider p {
   flex-shrink: 0;
@@ -20,4 +20,30 @@ body .slick-slider {
 }
 header.bn-onboard-modal-content-header {
   padding: 0;
+}
+
+.buyB.disable {
+  background-color: gray;
+  pointer-events: none;
+  box-shadow: none;
+}
+
+
+.group_photo2 { 
+  border-radius: 15px;
+}
+
+@media (max-width:768px) {
+  .dispNoneMobile {
+    display: none;
+  }
+
+  .dispNoneDesktop {
+    display: block !important;
+  }
+
+}
+
+.dispNoneDesktop {
+  display: none;
 }

@@ -6,7 +6,7 @@ const InformationPopup = ({ open, onClose, title, text }) => {
     <>
       <aside
         className="bn-onboard-custom bn-onboard-modal svelte-rntogh"
-        style={open ? { zIndex: "100" } : { display: "none" }}
+        style={open ? { zIndex: "19999999" } : { display: "none" }}
       >
         <section
           className="bn-onboard-custom bn-onboard-modal-content svelte-rntogh bn-onboard-dark-mode"

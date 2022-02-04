@@ -29,20 +29,21 @@ import headerImg2 from "../assets/images/banner_img2.gif";
 import statBannerI from "../assets/images/star_banner.png";
 import groupLogo from "../assets/images/Group_logo.png";
 
-import group_photo1 from "../assets/images/group_photo1.png";
-import mintEgg from "../assets/images/mintEgg.png";
+import group_photo1 from "../assets/images/defi.png";
+import group_photo2 from "../assets/images/group2.webp";
+import mintEgg from "../assets/images/mintPrice.png";
 import logoc1 from "../assets/images/logoc1.png";
 import logoc2 from "../assets/images/logoc2.png";
 import logoc3 from "../assets/images/logoc3.png";
 
 //campfireBoxImages
-import campfireBoxImg1 from "../assets/images/campFireBoxImg1.png";
-import campfireBoxImg2 from "../assets/images/campFireBoxImg2.png";
-import campfireBoxImg3 from "../assets/images/campFireBoxImg3.png";
+import campfireBoxImg1 from "../assets/images/wel1.png";
+import campfireBoxImg2 from "../assets/images/wel2.png";
+import campfireBoxImg3 from "../assets/images/wel3.png";
 import campfireBoxImg4 from "../assets/images/campFireBoxImg4.png";
 
 //collectible section img
-import collectibleImg from "../assets/images/collectible.png";
+import collectibleImg from "../assets/images/smokey.png";
 
 //cardSlider section img
 import CardSlider1 from "../assets/images/image1.png";
@@ -131,6 +132,7 @@ const Home = ({
   loadWeb3,
   maxSupply,
 }) => {
+  //console.log('display price:',displayPrice);
   let [slider, setSlider] = useState(false);
   const [value, setValue] = React.useState(1);
   const handleChange = (event, newValue) => {
@@ -342,12 +344,18 @@ const Home = ({
             <Navbar.Toggle aria-controls="navbarScroll" />
             <Navbar.Collapse id="navbarScroll" className="justify-content-end">
               <Nav className="my-2  my-lg-0" navbarScroll>
-                <Nav.Link href="#action1">Cozy That</Nav.Link>
                 <Nav.Link href="#action2">Whitepaper</Nav.Link>
+                <Link className="nav-link" to="/collection">
+                  Roadmap
+                </Link>
+                {/* <Nav.Link href="#action2">Whitepaper</Nav.Link> */}
                 <Nav.Link href="#action3">Chart</Nav.Link>
                 <Nav.Link href="#action4">FAQ</Nav.Link>
-                <Nav.Link href="#action5">Contacts</Nav.Link>
                 <Nav.Link href="#action6">Docs</Nav.Link>
+                <Link className="nav-link" to="/collection">
+                  My NFT Collection
+                </Link>
+
                 {/* <NavDropdown title="Roadmap" id="navbarScrollingDropdown">
                         <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
                         <NavDropdown.Item href="#action4">Another action</NavDropdown.Item>
@@ -359,8 +367,8 @@ const Home = ({
               </Nav>
 
               <div className="d-flex ">
-                <a href="#" class="theme_btn">
-                  Buy Now 🔥
+                <a href="/market-place" class="theme_btn">
+                  Buy $CAMPFIRE 🔥
                 </a>
               </div>
             </Navbar.Collapse>
@@ -380,19 +388,21 @@ const Home = ({
                   <div class="row">
                     <div class="col-lg-6 col-md-12">
                       <div class="hero-content ">
-                        <h1>Discover, find, & sell extraordinary NFTs 🔥 </h1>
+                        <h1>The Pyromaniac Camp Metaverse </h1>
                         <p>
-                          The world's first and largest digital marketplace for
-                          crypto collectibles and non- fungible tokens (NFTs).{" "}
+                          We’re going one step further than your standard NFTs
+                          as our Hero NFTs are playable and usable within the
+                          campfire ecosystem and earn you passive income
+                          rewards!.{" "}
                         </p>
                         <div className="bonfire-separator"></div>
                         <div class="saas-btn">
-                          <Link to="/market-place" className="banner_btn">
-                            Explore{" "}
-                          </Link>
+                          <a href="/market-place" className="banner_btn">
+                            Marketplace
+                          </a>
 
-                          <a href="#" className="banner_btnW">
-                            Create
+                          <a href="#mint-box" className="banner_btnW">
+                            Mint NFT
                           </a>
                         </div>
                         <div className="exlusive">
@@ -427,59 +437,47 @@ const Home = ({
         <Container>
           <div className="Incontainer">
             <div className="centerHeading">
-              <h2>We are Campfire</h2>
+              <h2>
+                Welcome To The Camp<span>.</span>
+              </h2>
               <p>
-                The world's first and largest digital marketplace for crypto
-                collectibles and non- fungible tokens (NFTs).{" "}
+                Pyromaniac Camp is an up-and-coming NFT metaverse project
+                combining DeFi and GameFi mechanics.{" "}
               </p>
               <div className="bonfire-separator"></div>
             </div>
 
             <div class="row pt-5">
-              <div className="col-lg-3 col-md-6">
+              <div className="col-lg-4 col-md-6">
                 <div className="campfireBox">
                   <img src={campfireBoxImg1} />
-                  <h4>Heading name</h4>
+                  <h4>High Utility</h4>
                   <p>
-                    The world's first and largest digital marketplace for crypto
-                    collect
+                    Countless utilities are powering and carrying this NFT
+                    collection
                   </p>
                 </div>
               </div>
-              <div className="col-lg-3 col-md-6">
+              <div className="col-lg-4 col-md-6">
                 <div className="campfireBox">
                   <img src={campfireBoxImg2} />
-                  <h4>Heading name</h4>
+                  <h4>Passive Income</h4>
                   <p>
-                    The world's first and largest digital marketplace for crypto
-                    collect
+                    Multiple streams to deploy your NFT and generate lifetime
+                    passive income rewards
                   </p>
                 </div>
               </div>
-              <div className="col-lg-3 col-md-6">
+              <div className="col-lg-4 col-md-6">
                 <div className="campfireBox">
                   <img src={campfireBoxImg3} />
-                  <h4>Heading name</h4>
+                  <h4>Gamified</h4>
                   <p>
-                    The world's first and largest digital marketplace for crypto
-                    collect
+                    Send your NFTs on quests to level up, unlock $CAMPFIRE
+                    tokens, or forage for resources
                   </p>
                 </div>
               </div>
-              <div className="col-lg-3 col-md-6">
-                <div className="campfireBox">
-                  <img src={campfireBoxImg4} />
-                  <h4>Heading name</h4>
-                  <p>
-                    The world's first and largest digital marketplace for crypto
-                    collect
-                  </p>
-                </div>
-              </div>
-
-              <a href="#" class="center_btn">
-                View all
-              </a>
             </div>
           </div>
         </Container>
@@ -549,10 +547,12 @@ const Home = ({
       {/*section card slider*/}
       <section className="cardSlider">
         <div className="centerHeading">
-          <h2>We are Campfire</h2>
+          <h2>
+            Featured Smokeys<span>.</span>
+          </h2>
           <p>
-            The world's first and largest digital marketplace for crypto
-            collectibles and non- fungible tokens (NFTs).{" "}
+            Smokeys are the names of the NFT heroes in the Pyromaniac Camp
+            collection.{" "}
           </p>
           <div className="bonfire-separator"></div>
         </div>
@@ -750,14 +750,14 @@ const Home = ({
               <img src={mintEgg} />
             </div>
             <h2>
-              <span>Mint Price</span> is 0.05 B CAMPFIRE
+              Mint your NFT<span> (Whitelist Only).</span>
             </h2>
-            <p>
-              Turning digital files into non-fungible tokens is simple. Here's
-              how to get started with minting your first B CAMPFIRE NFT
+            <p className="martop10">
+              Mint an NFT and get access to the Pyromaniac Camp metaverse and
+              begin earning passive income.
             </p>
 
-            <div class="mint-slider">
+            <div class="mint-slider" id="mint-box">
               <PrettoSlider
                 value={value}
                 min={1}
@@ -769,7 +769,8 @@ const Home = ({
                 onChange={handleChange}
                 className="slidercustome"
               />
-              <p> 0.5 B CAMPFIRE</p>
+              {/* {(value * displayPrice).toFixed(2)} */}
+              <p>Total Cost = {(value * displayPrice).toFixed(2)} BNB</p>
             </div>
 
             <button class="center_btn backshadow" onClick={() => mint(value)}>
@@ -781,7 +782,7 @@ const Home = ({
 
       {/*Trending in all category start from here*/}
 
-      <section className="trendingCat">
+      {/* <section className="trendingCat">
         <div className="container">
           <div className="Incontainer">
             <div className="centerHeading">
@@ -971,9 +972,9 @@ const Home = ({
             stroke-width="3"
           />
         </svg>
-      </section>
+      </section> */}
 
-      <section class="collectible">
+      <section class="collectible margintop150">
         <div class="collectibleBox Utility">
           <Container>
             <div className="Incontainer">
@@ -981,21 +982,18 @@ const Home = ({
                 <div class="col-lg-7">
                   <div className="collectBox ">
                     <h2>
-                      <b>Explore Utility of NFTs </b>
+                      <b>
+                        Augmented DeFi Utility<span>.</span>
+                      </b>
                     </h2>
 
                     <div className="bonfire-separator"></div>
                     <p>
-                      Utility NFTs are NFTs that carry some underlying utility
-                      or application. A very creative description indeed.
-                      Whether it's redeemable rewards or membership NFTs, a
-                      rising number of creators and developers are leveraging
-                      blockchain-backed tokens to build and support their
-                      communities.
-                    </p>
-                    <p>
-                      Buy and sell scarce digital goods from the likes of POAP,
-                      Urbit ID, and Polyient Games.
+                      Enjoying our DeFi? Good, it's about to get even better.
+                      All our DeFi protocols will be NFT 'augmentable' through
+                      smokey NFTs, allowing for even more modularity and earning
+                      strategies. For example, complete a quest using your
+                      Smokey NFT and earn increased liquidity mining rewards.
                     </p>
                   </div>
                 </div>
@@ -1009,26 +1007,40 @@ const Home = ({
         </div>
       </section>
 
-      <section className="FeaturedOn">
-        <div className="container">
-          <div className="Incontainer">
-            <div className="row">
-              <div className="col-md-4">
-                <h2>Featured on</h2>
-              </div>
-              <div className="col-md-8">
-                <p>
-                  At campfire we are excited about a brand new type of digital
-                  good called a non-fungible token, or NFT.{" "}
-                </p>
-                <div className="imgCont">
-                  <img src={logoc1} />
-                  <img src={logoc2} />
-                  <img src={logoc3} />
+      <section class="collectible">
+        <div class="collectibleBox Utility">
+          <Container>
+            <div className="Incontainer">
+              <div class="row">
+                <div class="col-lg-5 dispNoneMobile">
+                  <img className="group_photo2" src={group_photo2} />
+                </div>
+
+                <div class="col-lg-7">
+                  <div className="collectBox ">
+                    <h2>
+                      <b>
+                        Augmented DeFi Utility<span>.</span>
+                      </b>
+                    </h2>
+
+                    <div className="bonfire-separator"></div>
+                    <p>
+                      Enjoying our DeFi? Good, it's about to get even better.
+                      All our DeFi protocols will be NFT 'augmentable' through
+                      smokey NFTs, allowing for even more modularity and earning
+                      strategies. For example, complete a quest using your
+                      Smokey NFT and earn increased liquidity mining rewards.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="col-lg-5 dispNoneDesktop">
+                  <img className="group_photo2" src={group_photo2} />
                 </div>
               </div>
             </div>
-          </div>
+          </Container>
         </div>
       </section>
 
